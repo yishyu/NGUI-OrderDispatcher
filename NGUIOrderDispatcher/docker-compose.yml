@@ -32,8 +32,7 @@ services:
   nginx:
     build: ./nginx
     volumes:
-      - static_volume:/srv/static
-      - media_volume:/srv/media
+      - static_volume:/home/app/web/static
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.web_orderdispatcher.entrypoints=http"
@@ -65,4 +64,3 @@ networks:
 volumes:
   postgres_data:
   static_volume:
-  media_volume:
