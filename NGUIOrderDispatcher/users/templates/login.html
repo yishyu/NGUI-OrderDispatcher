@@ -1,0 +1,77 @@
+{% load static %}
+{% load i18n %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static "css/login.css" %}">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@800&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="{% static 'img/png/logo.png' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static "css/custom-style.css" %}" />
+
+
+    <title>
+        NGUI | OrderDispatcher
+    </title>
+</head>
+
+<body class="login-bg">
+    <div class="container ">
+        <div class="row  align-items-center justify-content-center ">
+            <div class="col-md-6  order-md-1 order-sm-2 order-2 text-sm-center text-center text-md-left">
+                <img src="{% static "img/png/logo.png" %}" class="logo-img  login-logo d-md-block d-none d-sm-none">
+                <div class="white-dash"></div>
+            </div>
+            <div class="col-md-6  form-div order-md-2 order-sm-1 order-1">
+                <img src="{% static "img/png/logo.png" %}" class="logo-img d-md-none d-block d-sm-block">
+                <h1 class="text-white login-title"> LOGIN</h1>-
+
+                <form class="mt-4 mb-5" action="" method="post">
+                    {% csrf_token %}
+                    {% if messages %}
+                    {% for message in messages %}
+                        <div{% if message.tags %} class="alert alert-{% if message.tags == 'error' %}danger {% else %}{{ message.tags }} {% endif %}"{% endif %}>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    {% endif %}
+                    <div class="form-group">
+                        <label for="email_field" class="form-label">Email</label>
+                        <input id="email_field" type="email" class="form-control form-control-login" name="email"
+                            aria-describedby="emailHelp" placeholder="Email">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="password_field" class="form-label">Password</label>
+                        <input id="password_field" type="password" class="form-control form-control-login" name="password"
+                            placeholder="Mot De Passe">
+                    </div>
+
+                    <div class="form-group text-sm-center text-center text-md-left">
+                        <button type="submit" class="btn login-btn mt-4">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+
+</body>
+
+</html>

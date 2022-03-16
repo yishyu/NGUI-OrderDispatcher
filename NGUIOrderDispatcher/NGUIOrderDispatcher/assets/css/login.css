@@ -1,0 +1,177 @@
+.body{
+	font-family: Segoe UI
+}
+.login-bg {
+  background-image: url("../img/jpg/login.jpg");
+  min-height: 100vh; 
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+
+
+.register-bg {
+  background-image: url("../img/jpg/register.jpg");
+  min-height: 100vh; 
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.login-bg .container, .register-bg .container{
+ height: 100vh;
+ padding-top: 25px;
+ padding-bottom: 25px
+}
+
+
+.login-bg .container .row, .register-bg .container .row {
+    min-height: 100%;
+}
+
+.form-div{
+border-left: 5px solid #FF5959;
+padding-left: 150px
+}
+
+
+
+.login-title{
+font-weight: 800;
+text-transform: uppercase;
+}
+
+.white-dash{
+	height: 3px;
+	width: 120px;
+	background-color: white;
+	margin-bottom: 20px
+}
+
+
+.login-btn{
+	background-color: #ff5959;
+	padding: 0.7rem 2.5rem;
+	font-weight:400; 
+	color: white; 
+	font-size: 22px;
+	border-radius: 50px
+}
+
+.login-btn-2{ 
+	font-weight:800;  
+}
+
+
+.login-btn:hover{
+color: #ff5959;
+    background: #5b4840;
+}
+.logo-img{
+	height: 15vh;
+	margin-bottom: 20px
+}
+.form-label{
+	color: #AE9E9E;
+	font-weight:normal;
+	padding-left: 2rem
+}
+
+.form-control-login {
+    display: block;
+    width: 100%;
+    padding: 1rem 1rem;
+    font-size: 1rem;
+    line-height: 1.5; 
+    color: #ffffff;
+    background-color: #5b4840;
+    background-clip: padding-box;
+    border: 1px solid #5b4840;
+    border-radius: 50px;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.form-control-birth {
+    display: block;
+    font-size: 1rem;
+    line-height: 1.5; 
+    color: #ffffff;
+    background-color: #5b4840;
+    background-clip: padding-box;
+    border: 1px solid #5b4840;
+    border-radius: 50px;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+ .form-control-login::placeholder {
+  color: #947669;
+  opacity: 1; /* Firefox */
+}
+
+.form-control-login:-ms-input-placeholder { /* Internet Explorer 10-11 */
+ color: #947669;
+}
+
+.form-control-login::-ms-input-placeholder { /* Microsoft Edge */
+ color: #947669;
+}
+
+
+.login-logo{
+	margin-bottom: 150px
+}
+
+
+/*// Small devices (landscape phones, less than 768px)*/
+@media (max-width: 767.98px) {
+.form-div{
+border-left: none; 
+padding-left:15px;
+margin-bottom: 50px
+}
+
+.login-bg .container, .register-bg .container{
+ min-height: 100vh;
+ height: auto;
+ padding-top: 25px;
+ padding-bottom: 25px
+}
+
+.logo-img{
+	height: 15vh;
+	margin-bottom: 70px;
+	margin-left: auto;
+	margin-right: auto;
+} 
+.login-logo{
+	margin-bottom: 50px
+}
+
+
+.login-title, .login-detail{
+	text-align: center;
+
+}
+
+
+.white-dash { 
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+h1{
+	font-size: 2rem;
+}
+
+h2{
+	font-size: 1.5rem;
+}
+
+h3{
+	font-size: 1.25rem;
+}
+
+
+}

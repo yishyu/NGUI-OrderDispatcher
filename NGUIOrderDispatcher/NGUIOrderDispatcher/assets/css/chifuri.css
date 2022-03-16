@@ -1,0 +1,67 @@
+
+@font-face{
+    font-family:"Peaches-and-Cream-Regular-W00";
+    src:url("//static.parastorage.com/services/third-party/fonts/user-site-fonts/fonts/2250f930-9a6d-4486-a0eb-6b407c5d6c9b.eot?#iefix");
+    src:url("//static.parastorage.com/services/third-party/fonts/user-site-fonts/fonts/2250f930-9a6d-4486-a0eb-6b407c5d6c9b.eot?#iefix") format("eot"),url("//static.parastorage.com/services/third-party/fonts/user-site-fonts/fonts/3c5beda8-45cc-4f76-abca-8eccfeb6220c.woff2") format("woff2"),url("//static.parastorage.com/services/third-party/fonts/user-site-fonts/fonts/b36b499f-d776-461c-bacb-fcbebe1cb9b4.woff") format("woff"),url("//static.parastorage.com/services/third-party/fonts/user-site-fonts/fonts/896d3828-26ce-462a-9f70-62e0b5c90a70.ttf") format("truetype"),url("//static.parastorage.com/services/third-party/fonts/user-site-fonts/fonts/0dccbec2-a882-4dd9-8da0-3a035c808ce0.svg#0dccbec2-a882-4dd9-8da0-3a035c808ce0") format("svg");
+}
+@font-face{
+    font-family:"Futura-LT-W01-Light";
+    src:url("//static.parastorage.com/services/third-party/fonts/user-site-fonts/fonts/2b40e918-d269-4fd9-a572-19f5fec7cd7f.eot?#iefix");
+    src:url("//static.parastorage.com/services/third-party/fonts/user-site-fonts/fonts/2b40e918-d269-4fd9-a572-19f5fec7cd7f.eot?#iefix") format("eot"),url("//static.parastorage.com/services/third-party/fonts/user-site-fonts/fonts/26091050-06ef-4fd5-b199-21b27c0ed85e.woff2") format("woff2"),url("//static.parastorage.com/services/third-party/fonts/user-site-fonts/fonts/cca525a8-ad89-43ae-aced-bcb49fb271dc.woff") format("woff"),url("//static.parastorage.com/services/third-party/fonts/user-site-fonts/fonts/88cc7a39-1834-4468-936a-f3c25b5d81a1.ttf") format("truetype"),url("//static.parastorage.com/services/third-party/fonts/user-site-fonts/fonts/14d6bf5d-15f1-4794-b18e-c03fb9a5187e.svg#14d6bf5d-15f1-4794-b18e-c03fb9a5187e") format("svg");
+}
+@font-face{
+    font-family:"Futura-LT-W01-Book";
+    src:url("//static.parastorage.com/services/third-party/fonts/user-site-fonts/fonts/cf053eae-ba1f-44f3-940c-a34b68ccbbdf.eot?#iefix");
+    src:url("//static.parastorage.com/services/third-party/fonts/user-site-fonts/fonts/cf053eae-ba1f-44f3-940c-a34b68ccbbdf.eot?#iefix") format("eot"),url("//static.parastorage.com/services/third-party/fonts/user-site-fonts/fonts/8bf38806-3423-4080-b38f-d08542f7e4ac.woff2") format("woff2"),url("//static.parastorage.com/services/third-party/fonts/user-site-fonts/fonts/e2b9cbeb-fa8e-41cd-8a6a-46044b29ba52.woff") format("woff"),url("//static.parastorage.com/services/third-party/fonts/user-site-fonts/fonts/c2a69697-4f06-4764-abd4-625031a84e31.ttf") format("truetype"),url("//static.parastorage.com/services/third-party/fonts/user-site-fonts/fonts/dc423cc1-bf86-415c-bc7d-ad7dde416a34.svg#dc423cc1-bf86-415c-bc7d-ad7dde416a34") format("svg");
+}
+@font-face{
+    font-family:"Lulo-Clean-W01-One-Bold";
+    src:url("//static.parastorage.com/services/third-party/fonts/user-site-fonts/fonts/0163ac22-50a7-406e-aa64-c62ee6fbf3d7.eot?#iefix");
+    src:url("//static.parastorage.com/services/third-party/fonts/user-site-fonts/fonts/0163ac22-50a7-406e-aa64-c62ee6fbf3d7.eot?#iefix") format("eot"),url("//static.parastorage.com/services/third-party/fonts/user-site-fonts/fonts/aee74cb3-c913-4b54-9722-6001c92325f2.woff2") format("woff2"),url("//static.parastorage.com/services/third-party/fonts/user-site-fonts/fonts/80de9d5d-ab5f-40ce-911b-104e51e93d7c.woff") format("woff"),url("//static.parastorage.com/services/third-party/fonts/user-site-fonts/fonts/1b46b05b-cfdd-4d82-8c2f-5c6cfba1fe60.ttf") format("truetype"),url("//static.parastorage.com/services/third-party/fonts/user-site-fonts/fonts/be340f0b-a2d4-41df-acb1-4dc124330a88.svg#be340f0b-a2d4-41df-acb1-4dc124330a88") format("svg");
+}
+
+.masthead {
+    padding: 10%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.intro-text{
+    position: center;
+    margin-left: 20%;
+    width: 60%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    background-color: #f8f9f6;
+}
+
+.asteriskField {
+    color: red !important;
+}
+
+.xaddress {
+    color: red;
+}
+
+.xaddress:hover {
+    color: darkred;
+}
+
+.paddress:hover {
+    color: green;
+}
+
+.pac-container {
+    z-index: 2;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 7vw;
+    object-fit: cover;
+}
+
+.fadeIn {
+    opacity: 0%;
+}
