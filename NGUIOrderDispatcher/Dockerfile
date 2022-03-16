@@ -13,8 +13,8 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # install psycopg2 dependencies
-#RUN apk update \
-#    && apk add postgresql-dev gcc python3-dev musl-dev
+RUN apk update \
+    && apk add postgresql-dev gcc python3-dev musl-dev
 
 # lint
 RUN pip install --upgrade pip
@@ -48,7 +48,7 @@ RUN mkdir $APP_HOME/static
 WORKDIR $APP_HOME
 
 # install dependencies
-RUN apk update && apk add libpq
+RUN apk update && apk add libpq postgresql-dev gcc python3-dev musl-dev
 COPY --from=builder /usr/src/app/wheels /wheels
 COPY --from=builder /usr/src/app/requirements.txt .
 RUN pip install --no-cache /wheels/*
