@@ -42,7 +42,7 @@ services:
       - "traefik.http.routers.web_orderdispatcher-secure.rule=Host(`orderdispatcher.chifuri.be`)"
       - "traefik.http.routers.web_orderdispatcher-secure.tls=true"
       - "traefik.http.routers.web_orderdispatcher-secure.tls.certresolver=http"
-      - "traefik.http.routers.web_orderdispatcher-secure.service=nginx-orderdispatcher@docker"
+      - "traefik.http.routers.web_orderdispatcher-secure.service=nginx-nguiorderdispatcher@docker"
       - "traefik.docker.network=traefik-proxy"
     depends_on:
       - web
