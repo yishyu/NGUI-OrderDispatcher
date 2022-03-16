@@ -1,4 +1,4 @@
-GIT_SSH_COMMAND='ssh -i /home/ubuntu/.ssh/id_rsa_orders_chifuri -o IdentitiesOnly=yes' git pull
+GIT_SSH_COMMAND='ssh -i /home/ubuntu/.ssh//home/ubuntu/.ssh/id_rsa_orderdispatcher -o IdentitiesOnly=yes' git pull
 
 docker-compose up -d --build
 docker-compose exec web python manage.py migrate --noinput
