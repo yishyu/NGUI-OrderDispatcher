@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Shop(models.Model):
     slug = models.SlugField(max_length=126, null=False, unique=True, default='')
+    local_application_api_key = models.CharField(max_length=50, null=True)
     name = models.CharField(max_length=50, blank=False)
     employees = models.ManyToManyField(User, verbose_name="user")
 

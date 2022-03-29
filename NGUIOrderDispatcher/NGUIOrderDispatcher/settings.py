@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'kitchen_display',
     'users',
     'crispy_forms',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
