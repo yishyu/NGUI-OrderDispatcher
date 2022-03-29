@@ -21,4 +21,6 @@ urlpatterns = [
     path('', include('kitchen_display.urls')),
     path('users/', include('users.urls')),
     path('admin/', admin.site.urls),
+    path('api/', include('NGUIOrderDispatcher.api_urls', namespace="api")),
+
 ]
