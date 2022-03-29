@@ -1,3 +1,62 @@
 from django.db import models
+import datetime
+from django.contrib.auth.models import User
 
 # Create your models here.
+class Shop(models.Model):
+    slug = models.SlugField(max_length=126, null=False, unique=True, default='')
+    name = models.CharField(max_length=50, blank=False)
+    employees = models.ManyToManyField(User, verbose_name="user")
+
+class Order(models.Model):
+    order_id = models.CharField("order id", max_length=50)
+    dishes = models.ManyToManyField("Dish", verbose_name="dish", through="OrderToDishes")
+    fetched_time = models.DateTimeField("fetched_time", auto_now=True, auto_now_add=False)
+    arrival_time = models.DateTimeField("arrival_time", auto_now=False, auto_now_add=False, null=True)
+    shop = models.ForeignKey("Shop", verbose_name="shop", on_delete=models.CASCADE)
+    price = models.FloatField(default=0)
+    order_type = models.CharField("type", max_length=50, null=True)
+    address = models.CharField("address", max_length=200, null=True)
+    order_states = [
+        ("a", "In Queue"),
+        ("b", "Preparing"),
+        ("c", "Done"),
+    ]
+    order_state = models.CharField("state", choices=order_states, max_length=50, default="a")
+
+    @property
+    def time_since_arrival(self):
+        return datetime.datetime.now() - self.fetched_time
+
+    @property
+    def delayed(self):
+        return datetime.datetime.now() > self.arrival_time
+
+    def switch_state(self, state):
+        return
+
+    def did_dish(self, dish):
+        return
+
+
+
+class Dish(models.Model):
+    name = models.CharField("name", max_length=50)
+    category = models.ForeignKey("Category", verbose_name="category", on_delete=models.CASCADE, null=True)
+
+class OrderToDishes(models.Model):
+    order = models.ForeignKey("Order", verbose_name="order", on_delete=models.CASCADE)
+    dish = models.ForeignKey("Dish", verbose_name="dish", on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=0)
+    quantity_done = models.IntegerField("quantity_done", default=0)
+
+    @property
+    def done(self):
+        return quantity == quantity_done
+
+
+class Category(models.Model):
+    name = models.CharField("category", max_length=150)
+
+    def __str__(self):
+        return self.name
