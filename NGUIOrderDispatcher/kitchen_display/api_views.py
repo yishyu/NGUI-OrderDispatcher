@@ -40,7 +40,7 @@ def incrementDoneQuantity(request, shop):
 
 
 @api_view(['POST'])
-# @csrf_exempt
+@csrf_exempt
 @require_shop_key
 def addNewOrders(request, shop):
     """
@@ -98,7 +98,7 @@ def addNewOrders(request, shop):
 
 
 @api_view(['GET'])
-# @allowed_domain
+@allowed_domain
 @require_shop_key
 def getCurrentPreparingOrders(request, shop):
     """
