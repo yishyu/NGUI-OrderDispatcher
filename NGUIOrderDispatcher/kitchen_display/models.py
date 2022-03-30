@@ -37,7 +37,7 @@ class Order(models.Model):
 
     @property
     def time_since_arrival(self):
-        return datetime.datetime.now() - self.fetched_time
+        return datetime.datetime.now() - self.fetched_time.replace(tzinfo=None)
 
     @property
     def delayed(self):
@@ -70,6 +70,10 @@ class OrderToDishes(models.Model):
     @property
     def done(self):
         return self.quantity == self.quantity_done
+
+    @property
+    def quantity_left(self):
+        return self.quantity - self.quantity_done
 
 
 class Category(models.Model):
