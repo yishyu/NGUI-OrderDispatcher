@@ -9,6 +9,9 @@ class Shop(models.Model):
     name = models.CharField(max_length=50, blank=False)
     employees = models.ManyToManyField(User, verbose_name="user")
 
+    def __str__(self):
+        return self.name
+
 class Order(models.Model):
     order_id = models.CharField("order id", max_length=50)
     dishes = models.ManyToManyField("Dish", verbose_name="dish", through="OrderToDishes")
@@ -16,8 +19,13 @@ class Order(models.Model):
     arrival_time = models.DateTimeField("arrival_time", auto_now=False, auto_now_add=False, null=True)
     shop = models.ForeignKey("Shop", verbose_name="shop", on_delete=models.CASCADE)
     price = models.FloatField(default=0)
-    order_type = models.CharField("type", max_length=50, null=True)
+    order_types = [
+        ('a', 'Pick up'),
+        ('b', 'Delivery')
+    ]
+    order_type = models.CharField("type", choices=order_types, max_length=50, null=True)
     address = models.CharField("address", max_length=200, null=True)
+    phone = models.CharField(max_length=20, null=False, blank=False, default="0")
     order_states = [
         ("a", "In Queue"),
         ("b", "Preparing"),
@@ -40,10 +48,18 @@ class Order(models.Model):
         return
 
 
+    def __str__(self):
+        return self.order_id
+
+
 
 class Dish(models.Model):
     name = models.CharField("name", max_length=50)
     category = models.ForeignKey("Category", verbose_name="category", on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return self.name
+
 
 class OrderToDishes(models.Model):
     order = models.ForeignKey("Order", verbose_name="order", on_delete=models.CASCADE)
