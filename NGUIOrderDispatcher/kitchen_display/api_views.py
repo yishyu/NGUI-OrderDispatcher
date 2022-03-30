@@ -14,7 +14,7 @@ def getQueuedOrders(request, shop):
     """
         called by the local app to get new orders if it has less than 4 preparing orders
     """
-    orders_in_preparation = Order.objects.filter(shop=shop, state="b").order_by("fetched_time")
+    # orders_in_preparation = Order.objects.filter(shop=shop, state="b").order_by("fetched_time")
     orders = Order.objects.filter(shop=shop, state="a").order_by("fetched_time")
     serialized_orders = kds_serializers.OrderSerializer(orders, context={'request': request}, many=True)
     return HttpResponse(serialized_orders.data)
