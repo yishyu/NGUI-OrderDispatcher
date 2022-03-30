@@ -70,7 +70,7 @@ def addNewOrders(request, shop):
                 else:
                     o2d.quantity += dish_json["quantity"]
                 o2d.save()
-                
+
                 # sauces & accompaniment considered as dishes
                 if dish_json["accompaniment"] != 'None':
                     dish, _ = Dish.objects.get_or_create(name=dish_json["accompaniment"])
@@ -104,4 +104,4 @@ def getCurrentPreparingOrders(request, shop):
     """
         Called by the js in the html view
     """
-    return HttpResponse(serialized_orders.data)
+    return HttpResponse()

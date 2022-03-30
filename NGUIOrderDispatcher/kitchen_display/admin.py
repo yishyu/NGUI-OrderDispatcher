@@ -1,5 +1,5 @@
 from django.contrib import admin
-from kitchen_display.models import *
+from kitchen_display.models import Shop, Order, Dish, Category, OrderToDishes
 from django.contrib.auth.models import User
 
 
@@ -14,6 +14,7 @@ class ShopAdmin(admin.ModelAdmin):
     )
     list_filter = ("name", )
     inline = (UserInline, )
+
 
 class OrderToDishesInline(admin.TabularInline):
     model = OrderToDishes

@@ -2,6 +2,7 @@ from django.db import models
 import datetime
 from django.contrib.auth.models import User
 
+
 # Create your models here.
 class Shop(models.Model):
     slug = models.SlugField(max_length=126, null=False, unique=True, default='')
@@ -11,6 +12,7 @@ class Shop(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Order(models.Model):
     order_id = models.CharField("order id", max_length=50)
@@ -47,10 +49,8 @@ class Order(models.Model):
     def did_dish(self, dish):
         return
 
-
     def __str__(self):
         return self.order_id
-
 
 
 class Dish(models.Model):
@@ -69,7 +69,7 @@ class OrderToDishes(models.Model):
 
     @property
     def done(self):
-        return quantity == quantity_done
+        return self.quantity == self.quantity_done
 
 
 class Category(models.Model):
