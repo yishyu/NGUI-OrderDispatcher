@@ -98,7 +98,7 @@ def addNewOrders(request, shop):
 
 
 @api_view(['GET'])
-@allowed_domain
+# @allowed_domain
 @require_shop_key
 def getCurrentPreparingOrders(request, shop):
     """
