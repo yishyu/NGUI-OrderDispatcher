@@ -30,7 +30,7 @@ class OrderAdmin(admin.ModelAdmin):
 
 class DishAdmin(admin.ModelAdmin):
     list_display = (
-        "id", "name", "category",
+        "name", "identifier", "category",
     )
     list_filter = ("name", "category")
 

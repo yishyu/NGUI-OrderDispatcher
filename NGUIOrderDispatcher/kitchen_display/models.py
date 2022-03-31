@@ -15,6 +15,7 @@ class Shop(models.Model):
 
 
 class Order(models.Model):
+    customer = models.CharField("customer", max_length=50, default="")
     order_id = models.CharField("order id", max_length=50)
     dishes = models.ManyToManyField("Dish", verbose_name="dish", through="OrderToDishes")
     fetched_time = models.DateTimeField("fetched_time", auto_now=True, auto_now_add=False)
@@ -37,11 +38,12 @@ class Order(models.Model):
 
     @property
     def time_since_arrival(self):
-        return datetime.datetime.now() - self.fetched_time.replace(tzinfo=None)
+        time = datetime.datetime.now() - self.fetched_time.replace(tzinfo=None)
+        return f"{str(time.seconds//3600).zfill(2)}:{str((time.seconds//60)%60).zfill(2)}:{str(time.seconds%60).zfill(2)}"
 
     @property
     def delayed(self):
-        return datetime.datetime.now() > self.arrival_time
+        return datetime.datetime.now() > self.arrival_time.replace(tzinfo=None)
 
     def switch_state(self, state):
         return
@@ -56,6 +58,7 @@ class Order(models.Model):
 class Dish(models.Model):
     name = models.CharField("name", max_length=50)
     category = models.ForeignKey("Category", verbose_name="category", on_delete=models.CASCADE, null=True)
+    identifier = models.CharField("remote identifier", max_length=10, default="")
 
     def __str__(self):
         return self.name

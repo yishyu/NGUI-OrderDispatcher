@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.views.decorators.csrf import csrf_exempt
 from kitchen_display.decorators import require_app_key, require_shop_key, allowed_domain
-from kitchen_display.models import Order, Dish, OrderToDishes
+from kitchen_display.models import Order, Dish, OrderToDishes, Shop
 import kitchen_display.serializers as kds_serializers
 import json
 
@@ -15,7 +15,7 @@ def getQueuedOrders(request, shop):
         called by the local app to get new orders if it has less than 4 preparing orders
     """
     # orders_in_preparation = Order.objects.filter(shop=shop, state="b").order_by("fetched_time")
-    orders = Order.objects.filter(shop=shop, state="a").order_by("fetched_time")
+    orders = Order.objects.filter(shop=shop, state="a").order_by("arrival_time")
     serialized_orders = kds_serializers.OrderSerializer(orders, context={'request': request}, many=True)
     return HttpResponse(serialized_orders.data)
 
@@ -51,6 +51,7 @@ def addNewOrders(request, shop):
         order_qs = Order.objects.filter(order_id=order_json['order_hash'])
         if order_qs.count() == 0:
             order = Order.objects.create(
+                customer=order_json["customer"],
                 order_id=order_json["order_hash"],
                 arrival_time=order_json["expected_date"],
                 shop=shop,
@@ -60,7 +61,7 @@ def addNewOrders(request, shop):
                 phone=order_json["phone"],
             )
             for dish_json in order_json['jsonized_dishes']:
-                dish, _ = Dish.objects.get_or_create(name=dish_json["name"])
+                dish, _ = Dish.objects.get_or_create(name=dish_json["name"], identifier=dish_json["identifier"])
                 o2d, created = OrderToDishes.objects.get_or_create(
                     order=order,
                     dish=dish
@@ -99,9 +100,11 @@ def addNewOrders(request, shop):
 
 @api_view(['GET'])
 @allowed_domain
-@require_shop_key
-def getCurrentPreparingOrders(request, shop):
+def getCurrentPreparingOrders(request, shop_pk):
     """
         Called by the js in the html view
     """
-    return HttpResponse()
+    shop = Shop.objects.get(pk=shop_pk)
+    preparing_orders = Order.objects.filter(shop=shop, order_state="b").order_by("-arrival_time")  # displayed from left to right. The left one must be the latest one
+    serialized_orders = kds_serializers.OrderSerializer(preparing_orders, context={'request': request}, many=True)
+    return Response(serialized_orders.data)

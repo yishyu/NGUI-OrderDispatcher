@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "defaultsecretkey")
 DEBUG = os.environ.get("DEBUG", '0') == '1'
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.1").split(" ")
-# REST_SAFE_LIST_IPS = os.environ.get("allowed_ip", ["127.0.0.1"]).split(" ")
+REST_SAFE_LIST_IPS = os.environ.get("allowed_ip", ["127.0.0.1"]).split(" ")
 LOGIN_URL = "login_view"
 
 # Application definition
