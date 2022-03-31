@@ -2,25 +2,27 @@
 {% load static %}
 
 {% block content %}
-<section style="margin-top:20vh">
-    <div class="card-deck col-md-12 col-lg-12 col-xl-12 mb-4">
-    {% for order in preparing_orders %}
-    
-        <div class="card p-5">
-            <div class="card-title" style="border-bottom:1px solid black">
-                {{order.order_id}} {{order.time_since_arrival}}
+<section style="margin-top:5vh">
+    <div style="text-align:center" class="container">
+        <h1 style="color:white; font-size:4em">Kitchen Display for {{shop}}</h1>
+    </div>
+    <div class="card-deck col-md-12 col-lg-12 col-xl-12 mb-4 mt-4">
+
+        {% for order in preparing_orders %}
+        <div class="card p-4">
+            <div class="row mb-3" style="font-size:1.2em;border-bottom:1px solid black">
+                <div class="col-4 card-title" >
+                    {{order.order_id}}
+                </div>
+                <div class="col-4">{{order.customer}}</div>
+                <div id="{{order.pk}}timer" class="col-4 timer" style="text-align:right">{{order.time_since_arrival}}</div>
             </div>
             <div class="card-body" style="padding:0px;">
                 <table>
-                    <thead>
-                        <th style="align-center">Quantity left</th>
-                        <th>Dish Name</th>
-                    </thead>
-                
                     {%for o2d in order.ordertodishes_set.all %}
-                        <tr>
-                            <td>{{o2d.quantity_left}}</td>
-                            <td class="align-right">{{o2d.dish}}</td>
+                        <tr id="{{order.pk}}{{o2d.dish.pk}}">
+                            <td id="{{order.pk}}{{o2d.dish.pk}}quantity" style="font-size:1.4em;width:20%;text-align:center">{{o2d.quantity_left}} x</td>
+                            <td style="font-size:1.2em">{{o2d.dish}}</td>
                         </tr>
 
                     {%endfor%}
@@ -37,6 +39,67 @@
 
 {%block extra_js%}
 <script>
+    var freshCommandBg = "#ffffff";
+    var passed = 0;
+    var timeDone = 0;
+    function reload_orders(){
+        $.get({
+            url: "{% url "api:kitchen_display:getCurrentPreparingOrders" shop.pk %}",
+            success: function(data){
+                for (var x=0; x<data.length; x++){
+                    var o2d = data[x]['dishes']
+                    for (var y=0; y<o2d.length; y++){
+                        var row = String(data[x]['pk'])+String(o2d[y]['dish']['pk'])
+                        var quantity = $("#"+row+"quantity").text().replace('x', '').trim()
+                        if(o2d[y]['quantity'] != quantity){
+                            // if changed
+                            console.log("wow")
+                            $("#"+row).addClass("changed")
+                            $("#"+row+"quantity").text(o2d[y]['quantity']+' x')
+                        }
 
+                    }
+                }
+            }
+        });
+    }
+
+    setInterval(  // timer
+        function(){
+            var timers = document.getElementsByClassName("timer")
+            Array.prototype.forEach.call(timers, function(timer){
+                const today = new Date();
+                var time = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+" "+timer.innerText
+                const date = new Date(time);
+                date.setSeconds(date.getSeconds() + 1);
+                timer.innerText = ('00'+date.getHours()).slice(-2)+":"+('00'+date.getMinutes()).slice(-2)+":"+('00'+date.getSeconds()).slice(-2)
+            })
+        }
+    , 1000);
+    setInterval(
+        function(){
+            if(document.getElementsByClassName("changed").length >0){
+                $(".changed").css("webkitTransitionDuration", "1s");
+                $(".changed").css("background-color", freshCommandBg);
+                if(freshCommandBg === "#e51e3578"){
+                    freshCommandBg = "#ffffff";
+                }
+                else{
+                    passed += 1;
+                    freshCommandBg = "#e51e3578"
+                    if (passed === 2){
+                        $(".changed").removeClass("changed");
+                        passed = 0;
+                    }
+                };
+            }
+            
+        }
+    , 500)
+    setInterval(
+        function(){
+            reload_orders();
+        }
+    , 5000)
 </script>
 {%endblock%}

@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from kitchen_display.models import Order, Shop
 
+
 @login_required
 def kitchen_display(request):
     shops = request.user.shop_set.all()
