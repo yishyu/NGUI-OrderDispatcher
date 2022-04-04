@@ -1,9 +1,10 @@
 import requests
 import json
+
+
 def neworders():
     source_url = 'http://127.0.0.1:8000/api/orders/getshoporders'
     source_shop_key = '766d486752d4d39ab7e3712d8b0132f745b3f1ccf17b97775d7429db0fe0e480'
-
     # source_url = 'https://dev.chifuri.be/api/orders/getshoporders'
     # source_shop_key = 'ub9e69fc6cdbce99f3155f596fb7147ce438a0854c63f927a434c2cb270243e16'
 
@@ -16,6 +17,7 @@ def neworders():
     data = data.json()
     print(data)
     data["key"] = target_shop_key
-    #data = requests.post(target_url, json=json.dumps(data))
+    data = requests.post(target_url, json=json.dumps(data))
+
 
 neworders()
