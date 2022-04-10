@@ -46,8 +46,8 @@ class LocalOrderManager():
 
     def pull_new_orders(self):
         amount = self._creds["order_amount"]-len(self._preparing_orders)
-        print(f"Fetching {amount} new orders")
         if amount > 0:
+            print(f"Fetching {amount} new orders")
             for order in self._remote_order_manager.get_new_orders(amount):
                 self._preparing_orders.append(Order(order))
             if len(self._preparing_orders) < self._creds["order_amount"]:
