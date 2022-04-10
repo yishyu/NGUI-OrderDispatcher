@@ -23,7 +23,7 @@ def getQueuedOrders(request, shop):
     amount = int(data.get('amount', 0))  # limit the amount of result in the qs
     orders = Order.objects.filter(shop=shop, order_state="a").order_by("arrival_time")[:amount]
     for order in orders:
-        order.order_state="b"
+        order.order_state = "b"
         order.save()
     serialized_orders = kds_serializers.OrderSerializer(orders, context={'request': request}, many=True)
     return Response(serialized_orders.data)
@@ -38,6 +38,7 @@ def getCurrentPreparingOrders(request, shop):
     preparing_orders = Order.objects.filter(shop=shop, order_state="b").order_by("-arrival_time")  # displayed from left to right. The left one must be the latest one
     serialized_orders = kds_serializers.OrderSerializer(preparing_orders, context={'request': request}, many=True)
     return Response(serialized_orders.data)
+
 
 @api_view(['GET'])
 @allowed_domain
