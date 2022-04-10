@@ -7,7 +7,7 @@ from django.conf import settings
 
 
 def require_app_key(func):
-    def wrapper(request):
+    def wrapper(request, *args, **kwargs):
         data = json.loads(request.data)
         key = data['key']
         key_obj = Shop.objects.filter(local_application_api_key=key)

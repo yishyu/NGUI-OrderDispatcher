@@ -45,12 +45,6 @@ class Order(models.Model):
     def delayed(self):
         return datetime.datetime.now() > self.arrival_time.replace(tzinfo=None)
 
-    def switch_state(self, state):
-        return
-
-    def did_dish(self, dish):
-        return
-
     def __str__(self):
         return self.order_id
 
