@@ -82,7 +82,9 @@
             }
         });
     }
-
+    $(document).ready(function(){
+        reload_orders();
+    })
     setInterval(  // timer
         function(){
             var timers = document.getElementsByClassName("timer")
