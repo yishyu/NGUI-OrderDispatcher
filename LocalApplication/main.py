@@ -17,6 +17,5 @@ while 1:
 
     # TODO: Update Local & Remote
     # if predicted_number certainty > x %:
-    # order_manager.increment_done_quantity(predicted_number)
     number = input('Identifier : ').strip()
     order_manager.increment_done_quantity(number)
