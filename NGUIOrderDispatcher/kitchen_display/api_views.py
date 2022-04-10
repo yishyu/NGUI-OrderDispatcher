@@ -1,4 +1,6 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
+
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -18,18 +20,28 @@ def getQueuedOrders(request, shop):
         the logic is implemented in the local app
     """
     data = json.loads(request.data)
-    amount = int(data.get('amount', 4))  # limit the amount of result in the qs
-    orders = Order.objects.filter(shop=shop, state="a").order_by("arrival_time")[:amount].update(state="b")
+    amount = int(data.get('amount', 0))  # limit the amount of result in the qs
+    orders = Order.objects.filter(shop=shop, order_state="a").order_by("arrival_time")[:amount]
+    for order in orders:
+        order.order_state="b"
+        order.save()
     serialized_orders = kds_serializers.OrderSerializer(orders, context={'request': request}, many=True)
     return Response(serialized_orders.data)
 
 
 @api_view(['GET'])
-@allowed_domain
-def getCurrentPreparingOrders(request, shop_pk):
+@require_app_key
+def getCurrentPreparingOrders(request, shop):
     """
         Called by the js in the html view
     """
+    preparing_orders = Order.objects.filter(shop=shop, order_state="b").order_by("-arrival_time")  # displayed from left to right. The left one must be the latest one
+    serialized_orders = kds_serializers.OrderSerializer(preparing_orders, context={'request': request}, many=True)
+    return Response(serialized_orders.data)
+
+@api_view(['GET'])
+@allowed_domain
+def siteGetCurrentPreparingOrders(request, shop_pk):
     shop = Shop.objects.get(pk=shop_pk)
     preparing_orders = Order.objects.filter(shop=shop, order_state="b").order_by("-arrival_time")  # displayed from left to right. The left one must be the latest one
     serialized_orders = kds_serializers.OrderSerializer(preparing_orders, context={'request': request}, many=True)
@@ -44,12 +56,11 @@ def changeStateToDone(request, shop):
         called by the local app to mark the accepted orders
     """
     data = json.loads(request.data)
-    orders_id = data.get("orders", [])
-    if orders_id == []:
+    order_id = data.get("order", None)
+    if not order_id:
         response = Response(status=status.HTTP_400_BAD_REQUEST)
     else:
-        for order_id in orders_id:
-            Order.objects.get(id=order_id).update(state="c")
+        Order.objects.filter(id=order_id).update(order_state="c")
         response = Response(status=status.HTTP_200_OK)
     return response
 
@@ -84,7 +95,7 @@ def addNewOrders(request, shop):
         order_qs = Order.objects.filter(order_id=order_json['order_hash'])
         if order_qs.count() == 0:
             order = Order.objects.create(
-                customer=order_json["customer"],
+                customer=order_json["user_username"],
                 order_id=order_json["order_hash"],
                 arrival_time=order_json["expected_date"],
                 shop=shop,
