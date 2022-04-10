@@ -10,11 +10,7 @@ except Exception as exception:
     exit()
 
 order_manager = LOM(creds)
-number = 'ptq'
-order_manager.increment_done_quantity(number)
-order_manager.increment_done_quantity('R2')
-order_manager.increment_done_quantity('R2')
-order_manager.increment_done_quantity('R2')
+# order_manager.increment_done_quantity('R2')
 while 1:
     # TODO: computer vision Here
     # TODO: AI model Here
@@ -22,4 +18,5 @@ while 1:
     # TODO: Update Local & Remote
     # if predicted_number certainty > x %:
     # order_manager.increment_done_quantity(predicted_number)
-    pass
+    number = input('Identifier : ').strip()
+    order_manager.increment_done_quantity(number)
