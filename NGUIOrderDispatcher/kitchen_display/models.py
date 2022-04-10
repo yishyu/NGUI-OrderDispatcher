@@ -1,6 +1,7 @@
 from django.db import models
 import datetime
 from django.contrib.auth.models import User
+import pytz
 
 
 # Create your models here.
@@ -38,12 +39,18 @@ class Order(models.Model):
 
     @property
     def time_since_arrival(self):
-        time = datetime.datetime.now() - self.fetched_time.replace(tzinfo=None)
+        local_tz = pytz.timezone('Europe/Brussels')
+        time = (datetime.datetime.now().astimezone(local_tz) - self.fetched_time.astimezone(local_tz))
         return f"{str(time.seconds//3600).zfill(2)}:{str((time.seconds//60)%60).zfill(2)}:{str(time.seconds%60).zfill(2)}"
 
     @property
     def delayed(self):
-        return datetime.datetime.now() > self.arrival_time.replace(tzinfo=None)
+        local_tz = pytz.timezone('Europe/Brussels')
+        return datetime.datetime.now().astimezone(local_tz) > self.arrival_time
+
+    @property
+    def arrival_hour(self):
+        return f"{str(self.arrival_time.hour).zfill(2)}h{str(self.arrival_time.minute).zfill(2)}"
 
     def __str__(self):
         return self.order_id
