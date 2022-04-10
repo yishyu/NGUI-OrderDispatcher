@@ -44,18 +44,17 @@
     var timeDone = 0;
     function reload_orders(){
         $.get({
-            url: "{% url "api:kitchen_display:getCurrentPreparingOrders" shop.pk %}",
+            url: "{% url "api:kitchen_display:siteGetCurrentPreparingOrders" shop.pk %}",
             success: function(data){
                 for (var x=0; x<data.length; x++){
                     var o2d = data[x]['dishes']
                     for (var y=0; y<o2d.length; y++){
                         var row = String(data[x]['pk'])+String(o2d[y]['dish']['pk'])
                         var quantity = $("#"+row+"quantity").text().replace('x', '').trim()
-                        if(o2d[y]['quantity'] != quantity){
+                        if(o2d[y]['quantity_left'] != quantity){
                             // if changed
-                            console.log("wow")
                             $("#"+row).addClass("changed")
-                            $("#"+row+"quantity").text(o2d[y]['quantity']+' x')
+                            $("#"+row+"quantity").text(o2d[y]['quantity_left']+' x')
                         }
 
                     }
@@ -93,7 +92,7 @@
                     }
                 };
             }
-            
+
         }
     , 500)
     setInterval(
