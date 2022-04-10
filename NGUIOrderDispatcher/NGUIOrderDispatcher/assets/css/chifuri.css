@@ -65,3 +65,13 @@
 .fadeIn {
     opacity: 0%;
 }
+
+.kitchen_display_dishes{
+    font-size: 1.2em;
+    width: 20%;
+    text-align: left;
+}
+
+.done{
+    background-color: #AFE1AF;
+}

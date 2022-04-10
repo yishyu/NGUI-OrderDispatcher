@@ -47,7 +47,7 @@ class OrderSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
             "pk", "order_id", "fetched_time", "arrival_time", "shop_name", 'shop_slug',
             "price", "order_type", "order_state", "time_since_arrival", "fetched_hour",
-            "arrival_hour", "delayed", "dishes"
+            "arrival_hour", "delayed", "dishes", "customer", "arrival_hour"
         )
 
 
