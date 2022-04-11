@@ -62,7 +62,7 @@
                             NewRow = MyTable.insertRow(index);
                             index ++;
                             var cell_1 = NewRow.insertCell(0)
-                            cell_1.innerHTML = o2d[y]['quantity_left'] + ' x ' // ' / ' + o2d[y]['quantity']
+                            cell_1.innerHTML = o2d[y]['quantity_done'] + ' / ' + o2d[y]['quantity']
                             cell_1.className = 'kitchen_display_dishes'
 
                             var cell_2 = NewRow.insertCell(1)
