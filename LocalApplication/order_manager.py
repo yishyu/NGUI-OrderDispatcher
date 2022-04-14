@@ -68,10 +68,11 @@ class LocalOrderManager():
         if order_id == -1:
             print("Dish Not in any preparing order")
         else:
-            print("Incremented dish")
 
             # update the remote order by calling self._remote_order_manager
             self._remote_order_manager.increment_done_quantity(order_id, number)
+            # Light up the corresponding LED TODO
+            print("Light up LED number ... ")
             if order_done:
                 print("order is done !")
                 # 1) move local order from preparing_orders to _done_orders
