@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from kitchen_display.models import Order, OrderToDishes, Dish
+from kitchen_display.models import Order, OrderToDishes, Dish, Color
 import pytz
 
 
@@ -10,6 +10,14 @@ class OrderSerializer(serializers.HyperlinkedModelSerializer):
     fetched_hour = serializers.SerializerMethodField('get_fetched_hour')
     arrival_hour = serializers.SerializerMethodField('get_arrival_hour')
     dishes = serializers.SerializerMethodField('get_dishes')
+    color = serializers.SerializerMethodField('get_color')
+
+    def get_color(self, order):
+        return ColorSerializer(
+            order.color,
+            context={"request": self.context["request"]},
+            many=False
+        ).data
 
     def get_dishes(self, order):
         return OrderToDishesSerializer(
@@ -47,7 +55,8 @@ class OrderSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
             "pk", "order_id", "fetched_time", "arrival_time", "shop_name", 'shop_slug',
             "price", "order_type", "order_state", "time_since_arrival", "fetched_hour",
-            "arrival_hour", "delayed", "dishes", "customer", "arrival_hour"
+            "arrival_hour", "delayed", "dishes", "customer", "arrival_hour", "color",
+            "preparing_hour"
         )
 
 
@@ -75,4 +84,13 @@ class DishSerializer(serializers.HyperlinkedModelSerializer):
         model = Dish
         fields = (
             'pk', 'name', 'category', 'identifier'
+        )
+
+
+class ColorSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Color
+        fields = (
+            'id', 'name', 'hex_or_rgba'
         )

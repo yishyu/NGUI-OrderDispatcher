@@ -1,11 +1,17 @@
 from django.contrib import admin
-from kitchen_display.models import Shop, Order, Dish, Category, OrderToDishes
+from kitchen_display.models import Shop, Order, Dish, Category, OrderToDishes, Color
 from django.contrib.auth.models import User
 
 
 # Register your models here.
 class UserInline(admin.TabularInline):
     model = User
+
+
+class ColorAdmin(admin.ModelAdmin):
+    list_display = (
+        "id", "name", "hex_or_rgba"
+    )
 
 
 class ShopAdmin(admin.ModelAdmin):
@@ -42,6 +48,7 @@ class CategoryAdmin(admin.ModelAdmin):
     list_filter = ("name", )
 
 
+admin.site.register(Color, ColorAdmin)
 admin.site.register(Shop, ShopAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Dish, DishAdmin)

@@ -4,12 +4,19 @@ from django.contrib.auth.models import User
 import pytz
 
 
-# Create your models here.
 class Shop(models.Model):
     slug = models.SlugField(max_length=126, null=False, unique=True, default='')
     local_application_api_key = models.CharField(max_length=50, null=True)
     name = models.CharField(max_length=50, blank=False)
     employees = models.ManyToManyField(User, verbose_name="user")
+
+    def __str__(self):
+        return self.name
+
+
+class Color(models.Model):
+    name = models.CharField("color", max_length=50)
+    hex_or_rgba = models.CharField("color code", max_length=50)
 
     def __str__(self):
         return self.name
@@ -21,6 +28,7 @@ class Order(models.Model):
     dishes = models.ManyToManyField("Dish", verbose_name="dish", through="OrderToDishes")
     fetched_time = models.DateTimeField("fetched_time", auto_now=True, auto_now_add=False)
     arrival_time = models.DateTimeField("arrival_time", auto_now=False, auto_now_add=False, null=True)
+    switched_to_preparing_time = models.DateTimeField("modifier preparing time", auto_now=False, auto_now_add=False, null=True, blank=True)
     shop = models.ForeignKey("Shop", verbose_name="shop", on_delete=models.CASCADE)
     price = models.FloatField(default=0)
     order_types = [
@@ -36,6 +44,7 @@ class Order(models.Model):
         ("c", "Done"),
     ]
     order_state = models.CharField("state", choices=order_states, max_length=50, default="a")
+    color = models.ForeignKey("Color", verbose_name="color", on_delete=models.CASCADE, null=True, blank=True)
 
     @property
     def time_since_arrival(self):
@@ -52,13 +61,18 @@ class Order(models.Model):
     def arrival_hour(self):
         return f"{str(self.arrival_time.hour).zfill(2)}h{str(self.arrival_time.minute).zfill(2)}"
 
+    @property
+    def preparing_hour(self):
+        local_tz = pytz.timezone('Europe/Brussels')
+        return f"{str(self.switched_to_preparing_time.astimezone(local_tz).hour).zfill(2)}h{str(self.switched_to_preparing_time.astimezone(local_tz).minute).zfill(2)}"
+
     def __str__(self):
         return self.order_id
 
 
 class Dish(models.Model):
     name = models.CharField("name", max_length=50)
-    category = models.ForeignKey("Category", verbose_name="category", on_delete=models.CASCADE, null=True)
+    category = models.ForeignKey("Category", verbose_name="category", on_delete=models.CASCADE, null=True, blank=True)
     identifier = models.CharField("remote identifier", max_length=10, default="")
 
     def __str__(self):
