@@ -9,6 +9,9 @@ class Order():
     def get_id(self):
         return self._order['pk']
 
+    def get_color(self):
+        return self._order['color']['name']
+
     def find_dish(self, number):
         for dish in self._order['dishes']:
             if dish['dish']['identifier'] == number and not dish['done']:
@@ -40,19 +43,21 @@ class LocalOrderManager():
     def find_update_order(self, number):
         for order in self._preparing_orders:
             if order.find_dish(number):
-                return order.get_id(), order.done()
-        return -1, False
+                return order
+        return
 
 
     def pull_new_orders(self):
         amount = self._creds["order_amount"]-len(self._preparing_orders)
         if amount > 0:
             print(f"Fetching {amount} new orders")
-            for order in self._remote_order_manager.get_new_orders(amount):
+            new_orders = self._remote_order_manager.get_new_orders(amount)
+            print(f"Got {len(new_orders)}")
+            for order in new_orders:
                 self._preparing_orders.append(Order(order))
             if len(self._preparing_orders) < self._creds["order_amount"]:
                 self._thread_launched = True
-                threading.Timer(10, self.pull_new_orders).start()
+                threading.Timer(self._creds["request_delay"], self.pull_new_orders).start()
 
     def terminate_order(self, order_id):
         for order in self._preparing_orders:
@@ -64,15 +69,16 @@ class LocalOrderManager():
     def increment_done_quantity(self, number):
         # find order where the dish is located in
         # update local order
-        order_id, order_done = self.find_update_order(number)
-        if order_id == -1:
+        order = self.find_update_order(number)
+        if not order:
             print("Dish Not in any preparing order")
         else:
-            print("Incremented dish")
-
+            order_id = order.get_id()
             # update the remote order by calling self._remote_order_manager
             self._remote_order_manager.increment_done_quantity(order_id, number)
-            if order_done:
+            # Light up the corresponding LED TODO
+            print(f"Light up {order.get_color()} LED ... ")
+            if order.done():
                 print("order is done !")
                 # 1) move local order from preparing_orders to _done_orders
                 self.terminate_order(order_id)

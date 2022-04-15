@@ -15,7 +15,7 @@ class RemoteOrderManager():
     def request_get_data(self, path, payload={}):
         try:
             payload["key"] = self._key
-            data = requests.get(self.formatted_url+path, json=json.dumps(payload))
+            data = requests.get(self.formatted_url+path, json=json.dumps(payload)).json()
         except:
             data = []
         return data
@@ -23,16 +23,16 @@ class RemoteOrderManager():
     def request_post_data(self, path, payload={}):
         try:
             payload["key"] = self._key
-            data = requests.post(self.formatted_url+path, json=json.dumps(payload))
+            data = requests.post(self.formatted_url+path, json=json.dumps(payload)).json()
         except:
             data = []
         return data
 
     def get_preparing_orders(self):
-        return self.request_get_data("/api/kitchen_display/getcurrentpreparingorders").json()
+        return self.request_get_data("/api/kitchen_display/getcurrentpreparingorders")
 
     def get_new_orders(self, amount: int):
-        return self.request_get_data("/api/kitchen_display/getqueuedorders", {"amount": amount}).json()
+        return self.request_get_data("/api/kitchen_display/getqueuedorders", {"amount": amount})
 
     def finish_order(self, order_id: int):
         return self.request_post_data("/api/kitchen_display/changeStateToDone", {"order": order_id})

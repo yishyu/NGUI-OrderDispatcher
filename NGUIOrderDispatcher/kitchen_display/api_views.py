@@ -7,9 +7,11 @@ from rest_framework import status
 
 from django.views.decorators.csrf import csrf_exempt
 from kitchen_display.decorators import require_app_key, require_shop_key, allowed_domain
-from kitchen_display.models import Order, Dish, OrderToDishes, Shop
+from kitchen_display.models import Order, Dish, OrderToDishes, Shop, Color
 import kitchen_display.serializers as kds_serializers
 import json
+import datetime
+import pytz
 
 
 @api_view(['GET'])
@@ -19,11 +21,15 @@ def getQueuedOrders(request, shop):
         called by the local app to get new orders if it has less than 4 preparing orders
         the logic is implemented in the local app
     """
+    local_tz = pytz.timezone('Europe/Brussels')
     data = json.loads(request.data)
     amount = int(data.get('amount', 0))  # limit the amount of result in the qs
     orders = Order.objects.filter(shop=shop, order_state="a").order_by("arrival_time")[:amount]
+    colors = list(Color.objects.all().exclude(order__order_state="b"))
     for order in orders:
         order.order_state = "b"
+        order.switched_to_preparing_time = datetime.datetime.now().astimezone(local_tz)
+        order.color = colors.pop()
         order.save()
     serialized_orders = kds_serializers.OrderSerializer(orders, context={'request': request}, many=True)
     return Response(serialized_orders.data)
@@ -35,7 +41,7 @@ def getCurrentPreparingOrders(request, shop):
     """
         Called by the js in the html view
     """
-    preparing_orders = Order.objects.filter(shop=shop, order_state="b").order_by("arrival_time")  # displayed from left to right. The left one must be the latest one
+    preparing_orders = Order.objects.filter(shop=shop, order_state="b").order_by("switched_to_preparing_time")  # displayed from left to right. The left one must be the latest one
     serialized_orders = kds_serializers.OrderSerializer(preparing_orders, context={'request': request}, many=True)
     return Response(serialized_orders.data)
 
@@ -44,7 +50,7 @@ def getCurrentPreparingOrders(request, shop):
 @allowed_domain
 def siteGetCurrentPreparingOrders(request, shop_pk):
     shop = Shop.objects.get(pk=shop_pk)
-    preparing_orders = Order.objects.filter(shop=shop, order_state="b").order_by("arrival_time")  # displayed from left to right. The left one must be the latest one
+    preparing_orders = Order.objects.filter(shop=shop, order_state="b").order_by("switched_to_preparing_time")  # displayed from left to right. The left one must be the latest one
     serialized_orders = kds_serializers.OrderSerializer(preparing_orders, context={'request': request}, many=True)
     return Response(serialized_orders.data)
 
