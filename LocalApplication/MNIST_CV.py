@@ -56,52 +56,42 @@ cap = cv2.VideoCapture(0)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 
-def pre_process_image(img):
-    """This function will pre-process a image with: cv2 & deskew
-    so it can be process by tesseract"""
-    img = cv2.resize(img, None, fx=.3, fy=.3) #resize using percentage
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) #change color format from BGR to RGB
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) #format image to gray scale
-    img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 5, 11) #to remove background
-    return img
-
-def deskew_process(image):
-    grayscale = rgb2gray(image)
-    angle = determine_skew(grayscale)
-    rotated = rotate(image, angle, resize=True) * 255
-    return rotated
-
-
-def rgb2gray(rgb):
-    import numpy as np
-    import matplotlib.pyplot as plt
-    import matplotlib.image as mpimg
-    return np.dot(rgb[...,:3], [0.2989, 0.5870, 0.1140])
-
+pytesseract.pytesseract.tesseract_cmd = 'tesseract'
 
 while(1):
     # Capture frame-by-frame
     ret, frame = cap.read()
+    # frame = cv2.UMat(frame)
 
-    # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    # blur = cv2.GaussianBlur(gray,(5,5),0)
-    # threshed = cv2.adaptiveThreshold(blur,255,cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV,11,5)
-    # kernel = np.ones((5,5),np.uint8)
-    # dilation = cv2.dilate(threshed,kernel,iterations = 1)
-    # opening = cv2.morphologyEx(dilation, cv2.MORPH_OPEN, kernel)
-    # contours, hierarchy = cv2.findContours(opening,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-    # cv2.drawContours(frame,contours,-1,(0,255,0),3)
-
-    frame = deskew_process(frame)
-    processed_img = pre_process_image(frame)
-    # #try:
-    # cnt = contours[0]
-    # x,y,w,h = cv2.boundingRect(cnt)
-    # delta = 100
-    # dst = opening[y-delta:y+h+delta, x-delta:x+w+delta]
-    image = Image.fromarray(processed_img)
-    print(pytesseract.image_to_string(image))
-
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    blur = cv2.GaussianBlur(gray,(5,5),0)
+    threshed = cv2.adaptiveThreshold(blur,255,cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV,11,5)
+    kernel = np.ones((5,5),np.uint8)
+    dilation = cv2.dilate(threshed,kernel,iterations = 1)
+    opening = cv2.morphologyEx(dilation, cv2.MORPH_OPEN, kernel)
+    contours, hierarchy = cv2.findContours(opening,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+    cv2.drawContours(frame,contours,-1,(0,255,0),3)
+    try:
+        cnt = contours[0]
+        x,y,w,h = cv2.boundingRect(cnt)
+        delta = 100
+        dst = opening[y-delta:y+h+delta, x-delta:x+w+delta]
+        if len(dst) > 0:
+            temp = cv2.resize(dst, (28, 28))
+            # img = img.astype('float32')
+            # img = img.reshape(28, 28)
+            # img = 255-img
+            # img = img / 255
+            np_image_data = cv2.normalize(temp.astype('float'), None, 0, 1, cv2.NORM_MINMAX)
+            inputarray = np_image_data[np.newaxis,...]
+            prediction = model.predict(inputarray)
+            score = tf.nn.softmax(prediction[0])
+            print(f"{np.argmax(prediction)} accuracy : {100 * np.max(score)}")
+            if np.max(score) > 0.5:
+                exit()
+            cv2.imshow("le chiffre", temp)
+    except:
+        pass
     cv2.imshow("frame", frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
