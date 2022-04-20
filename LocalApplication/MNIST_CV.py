@@ -78,10 +78,6 @@ while(1):
         dst = opening[y-delta:y+h+delta, x-delta:x+w+delta]
         if len(dst) > 0:
             temp = cv2.resize(dst, (28, 28))
-            # img = img.astype('float32')
-            # img = img.reshape(28, 28)
-            # img = 255-img
-            # img = img / 255
             np_image_data = cv2.normalize(temp.astype('float'), None, 0, 1, cv2.NORM_MINMAX)
             inputarray = np_image_data[np.newaxis,...]
             prediction = model.predict(inputarray)

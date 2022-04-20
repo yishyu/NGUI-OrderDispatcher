@@ -3,14 +3,16 @@ import json
 
 
 class RemoteOrderManager():
-    def __init__(self, url, port, key):
+    def __init__(self, url, key, port=""):
         self._url = url
         self._port = port
         self._key = key
-
     @property
     def formatted_url(self):
-        return f"http://{self._url}:{self._port}"
+        if self._port != "":
+            return f"http://{self._url}:{self._port}"
+        else:
+            return f"https://{self._url}"
 
     def request_get_data(self, path, payload={}):
         try:

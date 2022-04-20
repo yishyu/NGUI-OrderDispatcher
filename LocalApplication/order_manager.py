@@ -30,12 +30,11 @@ class Order():
 class LocalOrderManager():
     def __init__(self, creds):
         self._creds = creds
-        self._remote_order_manager = ROM(creds["remote_url"], creds["remote_port"], creds["shop_key"])
+        self._remote_order_manager = ROM(creds["remote_url"], creds["shop_key"], creds["remote_port"]) if creds.get("remote_port", "") != "" else ROM(creds["remote_url"], creds["shop_key"])
         self._done_orders = []
         self._preparing_orders = []
         self._thread_launched = False
         for order in self._remote_order_manager.get_preparing_orders():
-            print(order)
             self._preparing_orders.append(Order(order))
         self.pull_new_orders()
 
@@ -50,9 +49,9 @@ class LocalOrderManager():
     def pull_new_orders(self):
         amount = self._creds["order_amount"]-len(self._preparing_orders)
         if amount > 0:
-            print(f"Fetching {amount} new orders")
+            # print(f"Fetching {amount} new orders")
             new_orders = self._remote_order_manager.get_new_orders(amount)
-            print(f"Got {len(new_orders)}")
+            # print(f"Got {len(new_orders)}")
             for order in new_orders:
                 self._preparing_orders.append(Order(order))
             if len(self._preparing_orders) < self._creds["order_amount"]:
