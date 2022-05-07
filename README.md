@@ -41,7 +41,7 @@ Note: If you are running the web server locally, you need to change the variable
 ```json
 "remote_url": "ip of running webserver"
 "remote_port": "port of running webserver"
-"shop_key": "TODO put localtest key here" // local shop api key in the database
+"shop_key": "TODO put localtest key here"
 ```
 - Launch App
 ```
