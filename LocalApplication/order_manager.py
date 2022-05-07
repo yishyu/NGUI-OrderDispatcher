@@ -1,6 +1,6 @@
 from remote_order_manager import RemoteOrderManager as ROM
 import threading
-
+import logging
 
 class Order():
     def __init__(self, order: dict):
@@ -49,9 +49,7 @@ class LocalOrderManager():
     def pull_new_orders(self):
         amount = self._creds["order_amount"]-len(self._preparing_orders)
         if amount > 0:
-            # print(f"Fetching {amount} new orders")
             new_orders = self._remote_order_manager.get_new_orders(amount)
-            # print(f"Got {len(new_orders)}")
             for order in new_orders:
                 self._preparing_orders.append(Order(order))
             if len(self._preparing_orders) < self._creds["order_amount"]:
@@ -70,15 +68,15 @@ class LocalOrderManager():
         # update local order
         order = self.find_update_order(number)
         if not order:
-            print("Dish Not in any preparing order")
+            logging.warning("Dish Not in any preparing order")
         else:
             order_id = order.get_id()
             # update the remote order by calling self._remote_order_manager
             self._remote_order_manager.increment_done_quantity(order_id, number)
             # Light up the corresponding LED TODO
-            print(f"Light up {order.get_color()} LED ... ")
+            logging.info(f"Light up {order.get_color()} LED ... ")
             if order.done():
-                print("order is done !")
+                logging.info("order is done !")
                 # 1) move local order from preparing_orders to _done_orders
                 self.terminate_order(order_id)
                 # 2) update the remote order
