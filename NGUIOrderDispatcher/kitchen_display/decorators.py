@@ -28,14 +28,3 @@ def require_shop_key(func):
         key_obj = key_obj.first()
         return func(request, shop=key_obj)
     return wrapper
-
-
-def allowed_domain(func):
-    """
-        Only allow ip addresses that are set in the allowed hosts
-    """
-    def wrapper(request, *args, **kwargs):
-        if get_client_ip(request) in settings.REST_SAFE_LIST_IPS:
-            return func(request, *args, **kwargs)
-        return HttpResponseForbidden()
-    return wrapper

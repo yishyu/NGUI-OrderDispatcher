@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from django.views.decorators.csrf import csrf_exempt
-from kitchen_display.decorators import require_app_key, require_shop_key, allowed_domain
+from kitchen_display.decorators import require_app_key, require_shop_key
 from kitchen_display.models import Order, Dish, OrderToDishes, Shop, Color
 import kitchen_display.serializers as kds_serializers
 import json
