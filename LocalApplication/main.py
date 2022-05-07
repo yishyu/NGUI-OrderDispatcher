@@ -5,8 +5,9 @@ import time
 import logging
 logging.getLogger().setLevel(logging.INFO)
 
+CREDS_PATH = "./memory/creds"
 try:
-    with open("credentials.json", "r") as creds:
+    with open(f"{CREDS_PATH}/credentials.json", "r") as creds:
         creds = json.load(creds)
 except Exception as exception:
     logging.error(f"{exception}: Please create a credential file")
