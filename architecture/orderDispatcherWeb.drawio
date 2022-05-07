@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="g5wbfVR3hxNmUaX2ej2h" name="Page-1">
-        <mxGraphModel dx="2074" dy="1582" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="2284" dy="1633" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -123,19 +123,6 @@
                 <mxCell id="I5PKDxI4gq_-QwTu2oaX-42" value="&lt;div&gt;Auto Reload&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="705" y="390" width="110" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="I5PKDxI4gq_-QwTu2oaX-43" value="Screen" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="190" y="170" width="70" height="45" as="geometry"/>
-                </mxCell>
-                <mxCell id="I5PKDxI4gq_-QwTu2oaX-44" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" target="I5PKDxI4gq_-QwTu2oaX-43" edge="1">
-                    <mxGeometry width="50" height="50" relative="1" as="geometry">
-                        <mxPoint x="340" y="223" as="sourcePoint"/>
-                        <mxPoint x="490" y="210" as="targetPoint"/>
-                        <Array as="points">
-                            <mxPoint x="300" y="223"/>
-                            <mxPoint x="300" y="193"/>
-                        </Array>
-                    </mxGeometry>
-                </mxCell>
                 <mxCell id="I5PKDxI4gq_-QwTu2oaX-45" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/nuvola2/48x48/actions/ledorange.png" parent="1" vertex="1">
                     <mxGeometry x="-70" y="280" width="48" height="48" as="geometry"/>
                 </mxCell>
@@ -227,19 +214,19 @@
                 <mxCell id="I5PKDxI4gq_-QwTu2oaX-70" value="API" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="-61" y="50" width="30" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="2" value="&lt;div&gt;Cron Script&lt;br&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="2" value="&lt;div&gt;Cron Script&lt;br&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="30" y="40" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="3" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="2" target="I5PKDxI4gq_-QwTu2oaX-1">
+                <mxCell id="3" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="2" target="I5PKDxI4gq_-QwTu2oaX-1" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="220" y="170" as="sourcePoint"/>
                         <mxPoint x="270" y="120" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="4" value="Post" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                <mxCell id="4" value="Post" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="190" y="40" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="5" value="API" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="5" value="API" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="252.5" y="45" width="30" height="20" as="geometry"/>
                 </mxCell>
             </root>
