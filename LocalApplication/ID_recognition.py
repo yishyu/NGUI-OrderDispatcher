@@ -50,9 +50,9 @@ def capture_id():
                         cap.release()
                         cv2.destroyAllWindows()
                         cv2.drawContours(frame2,cnt,-1,(0,255,0),3)
-                        cv2.imwrite(f"testFrames/frame_original.jpg", frame2)
-                        name = "frame.jpg"
-                        cv2.imwrite(name, frame)
+                        # cv2.imwrite(f"testFrames/frame_original.jpg", frame2)
+                        # name = "frame.jpg"
+                        # cv2.imwrite(name, frame)
                         # cv2.imshow("frame", frame)
                         buffer = io.BytesIO()
                         img = Image.fromarray(frame)
