@@ -12,6 +12,9 @@ class Order():
     def get_color(self):
         return self._order['color']['name']
 
+    def get_color_hex(self):
+        return self._order['color']['hex_or_rgba']
+
     def find_dish(self, number):
         for dish in self._order['dishes']:
             if dish['dish']['identifier'] == number and not dish['done']:
@@ -28,7 +31,8 @@ class Order():
         return True
 
 class LocalOrderManager():
-    def __init__(self, creds):
+    def __init__(self, creds, led_manager):
+        self._led_manager = led_manager
         self._creds = creds
         self._remote_order_manager = ROM(creds["remote_url"], creds["shop_key"], creds["remote_port"]) if creds.get("remote_port", "") != "" else ROM(creds["remote_url"], creds["shop_key"])
         self._done_orders = []
@@ -75,6 +79,7 @@ class LocalOrderManager():
             self._remote_order_manager.increment_done_quantity(order_id, number)
             # Light up the corresponding LED TODO
             logging.info(f"Light up {order.get_color()} LED ... ")
+            self._led_manager.light_up_led(order.get_color_hex())
             if order.done():
                 logging.info("order is done !")
                 # 1) move local order from preparing_orders to _done_orders

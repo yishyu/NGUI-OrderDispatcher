@@ -8,7 +8,7 @@ from google.cloud import vision
 import time
 import numpy as np
 import logging
-# import pytesseract as tess
+
 
 # Instantiates a client
 client = vision.ImageAnnotatorClient()
@@ -50,15 +50,11 @@ def capture_id():
                         cap.release()
                         cv2.destroyAllWindows()
                         cv2.drawContours(frame2,cnt,-1,(0,255,0),3)
-                        # cv2.imwrite(f"testFrames/frame_original.jpg", frame2)
-                        # name = "frame.jpg"
-                        # cv2.imwrite(name, frame)
-                        # cv2.imshow("frame", frame)
+                        cv2.imwrite("testFrames/frame_original.jpg", frame2)
                         buffer = io.BytesIO()
                         img = Image.fromarray(frame)
                         img.save(buffer, format="PNG")
                         text = detect(buffer)
-                        # text = tess.image_to_string(img, lang='eng')
                         return text.strip()
 
     cap.release()

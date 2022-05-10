@@ -3,6 +3,7 @@ import json
 from ID_recognition import capture_id
 import time
 import logging
+from LED import LEDManager
 logging.getLogger().setLevel(logging.INFO)
 
 CREDS_PATH = "./memory/creds"
@@ -13,7 +14,9 @@ except Exception as exception:
     logging.error(f"{exception}: Please create a credential file")
     exit()
 
-order_manager = LOM(creds)
+led_manager = LEDManager()
+order_manager = LOM(creds, led_manager)
+
 logging.debug("order_manager initiated ...")
 while 1:
     number = capture_id()
