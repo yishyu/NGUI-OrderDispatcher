@@ -5,6 +5,7 @@ import logging
 
 
 class LEDManager():
+
     def __init__(self):
         # Choose an open pin connected to the Data In of the NeoPixel strip, i.e. board.D18
         # NeoPixels must be connected to D10, D12, D18 or D21 to work.
@@ -26,6 +27,7 @@ class LEDManager():
         self.pixels[position] = self.leds[color]
         time.sleep(0.5)
         self.pixels.fill(0)
+
 
 if __name__ == "__main__":
     led_manager = LEDManager()
