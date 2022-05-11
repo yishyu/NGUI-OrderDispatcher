@@ -84,7 +84,7 @@ class LocalOrderManager():
             self._led_manager.light_up_led(order.get_color_hex(), order.get_position())
             if order.done():
                 logging.info("order is done !")
-                for i in range(5)
+                for i in range(5):
                     self._led_manager.light_up_led(order.get_color_hex(), order.get_position())
 
                 # 1) move local order from preparing_orders to _done_orders
