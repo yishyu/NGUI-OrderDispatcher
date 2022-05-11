@@ -24,7 +24,7 @@ class LEDManager():
         logging.info(f"Light up LED {color} at position {position}")
         self.pixels.fill(0)
         self.pixels[position] = self.leds[color]
-        time.sleep(0.3)
+        time.sleep(0.5)
         self.pixels.fill(0)
 
 if __name__ == "__main__":
