@@ -21,8 +21,7 @@ def detect(buffer):
     # Performs label detection on the image file
     response = client.document_text_detection(image=image)
     docText = response.full_text_annotation.text
-    # re.sub("\D", "", docText)
-    return docText
+    return re.sub("\D", "", docText)
 
 def capture_id():
     logging.info("Capturing next ID ...")
