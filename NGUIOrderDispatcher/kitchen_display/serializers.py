@@ -21,7 +21,7 @@ class OrderSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_dishes(self, order):
         return OrderToDishesSerializer(
-            order.ordertodishes_set.all(),
+            order.ordertodishes_set.all().order_by("dish__name"),
             context={"request": self.context["request"]},
             many=True
         ).data
@@ -92,5 +92,5 @@ class ColorSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Color
         fields = (
-            'id', 'name', 'hex_or_rgba'
+            'id', 'name', 'hex_or_rgba', 'position'
         )

@@ -41,7 +41,7 @@ def getCurrentPreparingOrders(request, shop):
     """
         Called by the js in the html view
     """
-    preparing_orders = Order.objects.filter(shop=shop, order_state="b").order_by("switched_to_preparing_time")  # displayed from left to right. The left one must be the latest one
+    preparing_orders = Order.objects.filter(shop=shop, order_state="b").order_by("color__position")  # displayed from left to right. The left one must be the latest one
     serialized_orders = kds_serializers.OrderSerializer(preparing_orders, context={'request': request}, many=True)
     return Response(serialized_orders.data)
 
@@ -49,7 +49,7 @@ def getCurrentPreparingOrders(request, shop):
 @api_view(['GET'])
 def siteGetCurrentPreparingOrders(request, shop_pk):
     shop = Shop.objects.get(pk=shop_pk)
-    preparing_orders = Order.objects.filter(shop=shop, order_state="b").order_by("switched_to_preparing_time")  # displayed from left to right. The left one must be the latest one
+    preparing_orders = Order.objects.filter(shop=shop, order_state="b").order_by("color__position")  # displayed from left to right. The left one must be the latest one
     serialized_orders = kds_serializers.OrderSerializer(preparing_orders, context={'request': request}, many=True)
     return Response(serialized_orders.data)
 

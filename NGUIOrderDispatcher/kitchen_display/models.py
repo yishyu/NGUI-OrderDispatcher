@@ -17,6 +17,7 @@ class Shop(models.Model):
 class Color(models.Model):
     name = models.CharField("color", max_length=50)
     hex_or_rgba = models.CharField("color code", max_length=50)
+    position = models.IntegerField(default=0, null=False, blank=False)
 
     def __str__(self):
         return self.name

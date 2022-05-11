@@ -7,9 +7,9 @@
         <h1 style="color:white; font-size:4em">Kitchen Display for {{shop}}</h1>
     </div>
     <div class="card-deck col-md-12 col-lg-12 col-xl-12 mb-4 mt-4">
-        {% for i in 'aaaa' %}
-        <div id="{{forloop.revcounter0}}" class="card p-4">
-            <div id="card-header" class="row mb-3" style="font-size:1.2em;border-bottom:1px solid black">
+        {% for color in colors %}
+        <div id="{{color.position}}" class="card p-4" style="border-color:{{color.hex_or_rgba}}; border-width:thick">
+            <div id="card-header" class="row mb-3" style="font-size:1.2em;border-bottom:1px solid black;color:white; background-color:{{color.hex_or_rgba}}">
                 <div id="order_id" class="col-4 card-title" ></div>
                 <div id="customer" class="col-4"></div>
                 <div id="timer" class="col-4 timer" style="text-align:right"></div>
@@ -20,7 +20,10 @@
             </div>
 
             <div id="card-footer" class="card-footer mt-5" style="background : transparent">
-                <div id="arrival_time" style="font-weight:1.2em; text-align:right"></div>
+                <div id="footer-row" class="row d-flex">
+                    <div class="col-4" id="price" style="font-size:24px;font-weight:700; text-align:left"></div>
+                    <div class="col-8" id="arrival_time" style="font-weight:1.2em; text-align:right"></div>
+                </div>
             </div>
         </div>
     {% endfor %}
@@ -41,20 +44,20 @@
             success: function(data){
                 $(".changed").css("color", "#000000")
                 $(".changed").removeClass("changed")
+                reset_cards = [1,2,3,4]
                 for (var x=0; x<data.length; x++){
                     var o2d = data[x]['dishes']
+                    reset_cards.splice(reset_cards.indexOf(data[x]['color']['position']), 1)
 
-                    $("#"+x).css({"border-color": data[x]['color']['hex_or_rgba'], "border-width": "thick"})
-                    $("#"+x+" > #card-header").css({"background-color": data[x]['color']['hex_or_rgba'], "color": "white"})
-                    $("#"+x+" > #card-header > #order_id")[0].innerText = data[x]['order_id']
-                    $("#"+x+" > #card-header > #customer")[0].innerText = data[x]['customer']
-                    $("#"+x+" > #card-header > #timer")[0].innerText = data[x]['time_since_arrival']
-                    $("#"+x+" > #card-footer > #arrival_time")[0].innerText = 'Arrived in kitchen at :' + data[x]['preparing_hour']
+                    $("#"+data[x]['color']['position']+" > #card-header > #order_id")[0].innerText = data[x]['order_id']
+                    $("#"+data[x]['color']['position']+" > #card-header > #customer")[0].innerText = data[x]['customer']
+                    $("#"+data[x]['color']['position']+" > #card-header > #timer")[0].innerText = data[x]['time_since_arrival']
+                    $("#"+data[x]['color']['position']+" > #card-footer > #footer-row > #price")[0].innerText = data[x]["price"] + "€"
+                    $("#"+data[x]['color']['position']+" > #card-footer > #footer-row > #arrival_time")[0].innerText = 'Arrived in kitchen at :' + data[x]['preparing_hour']
                     if(data[x]['delayed']){
-                        $("#"+x+" > #card-footer > #arrival_time").addClass("changed")
+                        $("#"+data[x]['color']['position']+" > #card-footer > #footer-row > #arrival_time").addClass("changed")
                     }
-                    var MyTable = $("#"+x+" > #card-body > #dishes_table");
-                    console.log(MyTable[0].rows.length)
+                    var MyTable = $("#"+data[x]['color']['position']+" > #card-body > #dishes_table");
                     MyTable.empty();
                     MyTable = MyTable[0]
                     var index = 0;
@@ -73,14 +76,14 @@
 
                     }
                 }
-                for(var w=3; w>data.length-1;w--){
-                    $("#"+w+" > #card-header > #order_id")[0].innerText = ""
-                    $("#"+w+" > #card-header > #customer")[0].innerText = ""
-                    $("#"+w+" > #card-header > #timer")[0].innerText = ""
-                    $("#"+w+" > #card-body > #dishes_table")[0].innerText = ""
-                    $("#"+x+" > #card-footer > #arrival_time")[0].innerText = ""
-                    $("#"+x).css({"border-color": "white"})
-                    $("#"+x+" > #card-header").css({"background-color": "white"})
+                console.log(reset_cards)
+                for(var w=0; w<reset_cards.length;w++){
+                    $("#"+reset_cards[w]+" > #card-header > #order_id")[0].innerText = ""
+                    $("#"+reset_cards[w]+" > #card-header > #customer")[0].innerText = ""
+                    $("#"+reset_cards[w]+" > #card-header > #timer")[0].innerText = ""
+                    $("#"+reset_cards[w]+" > #card-body > #dishes_table")[0].innerText = ""
+                    $("#"+reset_cards[w]+" > #card-footer > #footer-row > #price")[0].innerText =
+                    $("#"+reset_cards[w]+" > #card-footer > #footer-row > #arrival_time")[0].innerText = ""
                 }
             }
         });

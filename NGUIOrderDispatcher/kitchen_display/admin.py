@@ -10,7 +10,7 @@ class UserInline(admin.TabularInline):
 
 class ColorAdmin(admin.ModelAdmin):
     list_display = (
-        "id", "name", "hex_or_rgba"
+        "id", "name", "hex_or_rgba", "position"
     )
 
 
@@ -28,7 +28,7 @@ class OrderToDishesInline(admin.TabularInline):
 
 class OrderAdmin(admin.ModelAdmin):
     list_display = (
-        "id", "order_id", "fetched_time", "arrival_time", "shop", "price", "order_type", "address", "order_state"
+        "id", "order_id", "fetched_time", "arrival_time", "shop", "price", "order_type", "address", "order_state", 'color'
     )
     list_filter = ("shop", )
     inlines = (OrderToDishesInline, )
