@@ -1,6 +1,8 @@
 import time
 import board
 import neopixel
+import logging
+
 
 class LEDManager():
     def __init__(self):
@@ -13,22 +15,24 @@ class LEDManager():
         # For RGBW NeoPixels, simply change the ORDER to RGBW or GRBW.
         ORDER = neopixel.GRBW
         self.pixels = neopixel.NeoPixel(
-            pixel_pin, num_pixels, auto_write=False, brightness=1, pixel_order=ORDER
+            pixel_pin, num_pixels, brightness=1, pixel_order=ORDER
         )
         self.pixels.fill(0)
-        self.leds = {"#ff0000": (0, 0xff0000), "#00ff00": (1, 0x00ff00), "#0000ff": (2, 0x0000ff), "#6a0dad": (3, 0x6a0dad)}
+        self.leds = {"#ff0000": 0xff0000, "#00ff00": 0x00ff00, "#0000ff": 0x0000ff, "#6a0dad": 0x6a0dad}
 
-    def light_up_led(self, color):
+    def light_up_led(self, color, position):
+        logging.info(f"Light up LED {color} at position {position}")
         self.pixels.fill(0)
-        self.pixels[self.leds[color][0]] = self.leds[color][1]
-        self.pixels.show()
+        self.pixels[position] = self.leds[color]
+        time.sleep(0.5)
+        self.prixels.fill(0)
 
 if __name__ == "__main__":
     led_manager = LEDManager()
-    led_manager.light_up_led("#ff0000")
+    led_manager.light_up_led("#ff0000", 0)
     time.sleep(0.5)
-    led_manager.light_up_led("#00ff00")
+    led_manager.light_up_led("#00ff00", 1)
     time.sleep(0.5)
-    led_manager.light_up_led("#0000ff")
+    led_manager.light_up_led("#0000ff", 2)
     time.sleep(0.5)
-    led_manager.light_up_led("#6a0dad")
+    led_manager.light_up_led("#6a0dad", 3)
