@@ -44,7 +44,7 @@
             success: function(data){
                 $(".changed").css("color", "#000000")
                 $(".changed").removeClass("changed")
-                reset_cards = [1,2,3,4]
+                reset_cards = [0, 1, 2, 3]
                 for (var x=0; x<data.length; x++){
                     var o2d = data[x]['dishes']
                     reset_cards.splice(reset_cards.indexOf(data[x]['color']['position']), 1)
