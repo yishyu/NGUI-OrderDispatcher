@@ -9,20 +9,29 @@ class RemoteOrderManager():
         self._key = key
     @property
     def formatted_url(self):
+        """
+            sets the url dynamically
+        """
         if self._port != "":
             return f"http://{self._url}:{self._port}"
         else:
             return f"https://{self._url}"
 
     def request_get_data(self, path, payload={}):
+        """
+            generic method to get data from the remote server
+        """
         try:
             payload["key"] = self._key
             data = requests.get(self.formatted_url+path, json=json.dumps(payload)).json()
         except:
-            data = []
+            data = []  # empty data if the request fails
         return data
 
     def request_post_data(self, path, payload={}):
+        """
+            generic method to post data to the remote server
+        """
         try:
             payload["key"] = self._key
             data = requests.post(self.formatted_url+path, json=json.dumps(payload)).json()

@@ -3,7 +3,7 @@ from kitchen_display.models import Shop, Order, Dish, Category, OrderToDishes, C
 from django.contrib.auth.models import User
 
 
-# Register your models here.
+# These are all the admin models that are displayed in the admin platform
 class UserInline(admin.TabularInline):
     model = User
 

@@ -18,10 +18,14 @@ class LEDManager():
         self.pixels = neopixel.NeoPixel(
             pixel_pin, num_pixels, brightness=1, pixel_order=ORDER
         )
-        self.pixels.fill(0)
+        self.pixels.fill(0)  # "turn off" the leds
         self.leds = {"#ff0000": 0xff0000, "#00ff00": 0x00ff00, "#0000ff": 0x0000ff, "#6a0dad": 0x6a0dad}
 
     def light_up_led(self, color, position):
+        """
+            Lights up the i-th led corresponding to the position
+            With the given color
+        """
         logging.info(f"Light up LED {color} at position {position}")
         self.pixels.fill(0)
         self.pixels[position] = self.leds[color]
