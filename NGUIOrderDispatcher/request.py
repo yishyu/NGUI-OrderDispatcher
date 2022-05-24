@@ -4,6 +4,10 @@ import time
 
 
 def neworders():
+    """
+        Syncronizes the orders from the restaurant online ordering platform
+        into our dispatcher database
+    """
     # source_url = 'http://127.0.0.1:8000/api/orders/getshoporders'
     # source_shop_key = '766d486752d4d39ab7e3712d8b0132f745b3f1ccf17b97775d7429db0fe0e480'
     source_url = 'https://dev.chifuri.be/api/orders/getshoporders'

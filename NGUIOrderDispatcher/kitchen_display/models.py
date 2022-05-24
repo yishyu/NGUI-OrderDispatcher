@@ -5,6 +5,9 @@ import pytz
 
 
 class Shop(models.Model):
+    """
+        Shops represent all the restaurant that our platform is linked to
+    """
     slug = models.SlugField(max_length=126, null=False, unique=True, default='')
     local_application_api_key = models.CharField(max_length=50, null=True)
     name = models.CharField(max_length=50, blank=False)
@@ -15,6 +18,9 @@ class Shop(models.Model):
 
 
 class Color(models.Model):
+    """
+        Every orders has an attributed color
+    """
     name = models.CharField("color", max_length=50)
     hex_or_rgba = models.CharField("color code", max_length=50)
     position = models.IntegerField(default=0, null=False, blank=False)
@@ -24,6 +30,9 @@ class Color(models.Model):
 
 
 class Order(models.Model):
+    """
+        The order are created by in the api view when new orders are synced and sent to this server
+    """
     customer = models.CharField("customer", max_length=50, default="")
     order_id = models.CharField("order id", max_length=50)
     dishes = models.ManyToManyField("Dish", verbose_name="dish", through="OrderToDishes")
@@ -72,6 +81,9 @@ class Order(models.Model):
 
 
 class Dish(models.Model):
+    """
+        Each Order is composed by one or multiple dishes
+    """
     name = models.CharField("name", max_length=50)
     category = models.ForeignKey("Category", verbose_name="category", on_delete=models.CASCADE, null=True, blank=True)
     identifier = models.CharField("remote identifier", max_length=10, default="")
@@ -81,6 +93,9 @@ class Dish(models.Model):
 
 
 class OrderToDishes(models.Model):
+    """
+        M2M relationship between order and dishes
+    """
     order = models.ForeignKey("Order", verbose_name="order", on_delete=models.CASCADE)
     dish = models.ForeignKey("Dish", verbose_name="dish", on_delete=models.CASCADE)
     quantity = models.IntegerField(default=0)

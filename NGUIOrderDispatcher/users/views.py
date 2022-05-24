@@ -9,6 +9,10 @@ from django.contrib.auth.decorators import login_required
 
 
 def loginUser(request):
+    """
+        Either render the form on a login page or triggers the login process
+        if it receive a filled form
+    """
     if request.method == "POST":
         form = UserLoginForm(request.POST)
         if form.is_valid():
@@ -40,6 +44,9 @@ def loginUser(request):
 
 @login_required
 def logout_view(request):
+    """
+        Logs the user out
+    """
     logout(request)
     messages.add_message(
         request, messages.WARNING,

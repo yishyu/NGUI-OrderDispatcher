@@ -5,6 +5,9 @@ from django.contrib.auth.models import User
 
 
 class UserLoginForm(forms.Form):
+    """
+        the user login form that is being displayed in the login page
+    """
     email = forms.EmailField(required=True)
     password = forms.CharField(
         min_length=8, required=True,

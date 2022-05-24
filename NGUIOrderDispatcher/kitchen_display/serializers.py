@@ -4,7 +4,12 @@ import pytz
 
 
 class OrderSerializer(serializers.HyperlinkedModelSerializer):
-
+    """
+        Serialize the order model so it can be sent via the api
+        to the local application
+        In order for the entire model to be sent, we also need to serialize
+        the different models that are attached to it such as the dishes
+    """
     shop_name = serializers.SerializerMethodField('get_shop_name')
     shop_slug = serializers.SerializerMethodField('get_shop_slug')
     fetched_hour = serializers.SerializerMethodField('get_fetched_hour')

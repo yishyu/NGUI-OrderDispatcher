@@ -7,6 +7,9 @@ from django.conf import settings
 
 
 def require_app_key(func):
+    """
+        verify the app api key
+    """
     def wrapper(request, *args, **kwargs):
         data = json.loads(request.data)
         key = data['key']
@@ -19,6 +22,9 @@ def require_app_key(func):
 
 
 def require_shop_key(func):
+    """
+        for requests coming from the sync script
+    """
     def wrapper(request):
         data = json.loads(request.data)
         key = data['key']
