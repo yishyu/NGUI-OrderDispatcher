@@ -9,10 +9,10 @@ def neworders():
     source_url = 'https://dev.chifuri.be/api/orders/getshoporders'
     source_shop_key = 'ub9e69fc6cdbce99f3155f596fb7147ce438a0854c63f927a434c2cb270243e16'
 
-    # target_url = "http://192.168.1.48:8000/api/kitchen_display/addneworders"
-    # target_shop_key = "JzCH8aWmZDmigAp7eXJ2456LHQYXK9NKdwwHeWbwhkFfTCEhPcETfffwHbMXRJ6yfquYw2T7Dtv6y"
-    target_url = 'https://orderdispatcher.chifuri.be/api/kitchen_display/addneworders'
-    target_shop_key = 'GKmkLecS9oWGCC5jzUFZavLUnYen9SNCAckKe3M6RCS5zJ7AhwGosXbB9hCc2heV'
+    target_url = "http://127.0.0.1:8000/api/kitchen_display/addneworders"
+    target_shop_key = "JzCH8aWmZDmigAp7eXJ2456LHQYXK9NKdwwHeWbwhkFfTCEhPcETfffwHbMXRJ6yfquYw2T7Dtv6y"
+    # target_url = 'https://orderdispatcher.chifuri.be/api/kitchen_display/addneworders'
+    # target_shop_key = 'GKmkLecS9oWGCC5jzUFZavLUnYen9SNCAckKe3M6RCS5zJ7AhwGosXbB9hCc2heV'
     json_obj = {"key": source_shop_key}
     data = requests.get(source_url, json=json.dumps(json_obj))
     data = data.json()
